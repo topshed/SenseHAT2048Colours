@@ -313,6 +313,9 @@ def add_sq(col):
     load_sq(map_sqs(new),col)
     refresh_grid()
 
+# Allow weighted choices for new colours
+weighted_cols = [(colour2,100),(colour4,20), (colour8,1)]
+pop = [val for val, cnt in weighted_cols for i in range(cnt)]
 # START GAME
 # Add two '2' squares at the start of the game
 add_sq(colour2)
@@ -327,18 +330,18 @@ while True:
                   if event.code == ecodes.KEY_UP:
                       print("up")
                       shift_up()
-                      add_sq(colour2)
+                      add_sq(random.choice(pop))
                   elif event.code == ecodes.KEY_LEFT:
                       print("left")
                       shift_left()
-                      add_sq(colour2)
+                      add_sq(random.choice(pop))
                   elif event.code == ecodes.KEY_RIGHT:
                       print("right")
                       shift_right()
-                      add_sq(colour2)
+                      add_sq(random.choice(pop))
                   elif event.code == ecodes.KEY_DOWN:
                       print("down")
                       shift_down()
-                      add_sq(colour2)
+                      add_sq(random.choice(pop))
                   else:
                       print("enter")
