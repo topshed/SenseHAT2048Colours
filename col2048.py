@@ -5,6 +5,11 @@ import random
 import time
 import sys
 sh = SenseHat()
+# File to store high score
+highscorefile = open('/home/pi/.2048score','r')
+global highscore
+highscore = int(highscorefile.readline())
+highscorefile.close()
 
 # Check that we can see the SenseHat Joystick
 devices = [InputDevice(fn) for fn in list_devices()]
@@ -300,6 +305,7 @@ def random_sq():
         for r in range(2):
             sh.show_message("Game Over: score =",text_colour=[255,255,0], back_colour=[0,128,255],scroll_speed=0.05)
             sh.show_message(str(score),back_colour=[0,255,0],scroll_speed=0.07)
+        check_highscore(score)
         sh.clear()
         sys.exit()
     # Pick a random free square
@@ -312,6 +318,13 @@ def add_sq(col):
     update_sq(new,col)
     load_sq(map_sqs(new),col)
     refresh_grid()
+
+# check for new highscore and write to file if necessary
+def check_highscore(score):
+    if score > highscore:
+        sh.show_message("NEW HIGH SCORE!", text_colour=[255,0,0], back_colour=[255,255,0])
+        highscorefile = open('/home/pi/.2048score','r+')
+        highscorefile.write(str(score))
 
 # Allow weighted choices for new colours
 weighted_cols = [(colour2,100),(colour4,20), (colour8,1)]
